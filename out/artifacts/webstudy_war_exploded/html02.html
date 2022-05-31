@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>提交表单数据</h1>
+<form onsubmit="return false;" id="form">
+    <input type="text" autocomplete="off" name="name" placeholder="请输入姓名"/>
+    <br>
+    <input type="text" autocomplete="off" name="age" placeholder="请输入年龄"/>
+    <br>
+    男: <input type="radio" name="sex" value="男"> 女:<input type="radio" name="sex" value="女">
+    <br>
+    java: <input type="checkbox" value="java" name="loves">
+    python:<input type="checkbox" value="python" name="loves">
+    大数据: <input type="checkbox" value="大数据" name="loves">
+    <br>
+    <select name="city">
+        <option>西安市</option>
+        <option>北京市</option>
+        <option>宝鸡市</option>
+    </select>
+    <br>
+    <button onclick="doSubmit()">提交数据给服务器</button>
+</form>
+
+<script type="text/javascript">
+    function doSubmit() {
+        //获取name
+        let name = document.querySelector("input[name='name']");
+        //获取age
+        let age = document.querySelector("input[name='age']");
+        //由于多个input的name=sex所以需要遍历，选择出来被选择的值
+        let sex = document.querySelectorAll("input[name='sex']");
+        //最后获取到的被选择的sex
+        let sexVal = null;
+        for (let sexKey in sex) {
+            if (sex[sexKey].checked) {
+                sexVal = sex[sexKey].value;
+            }
+        }
+        //获取loves
+        let lovesInputs = document.querySelectorAll("input[name='loves']");
+        let loves = [];
+        lovesInputs.forEach(lovesInput=>{
+            if(lovesInput.checked){
+                loves.push(lovesInput.value);
+            }
+        })
+
+        //获取city
+        let city = document.querySelector("select[name='city']").value;
+
+        const userObj={
+            name,
+            age,
+            sex,
+            loves,
+            city
+        }
+
+        //异步请求对象
+        let xhr = new XMLHttpRequest();
+        //由于这里的前后端都是一个服务器，所以我们不需要写ip和端口号
+        xhr.open("POST","/web03/servlet01");
+        //这里必须指定表单类型，不然会无法提交到服务器
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+        xhr.send("name=zhangsan&age=18&sex=男&loves=java&loves=大数据&city=西安市");
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4){
+                const responseJsonText = xhr.responseText;
+                //把json类型的文本转换成js中的对象(js中对象的反序列化)
+                const jsonObj = JSON.parse(responseJsonText);
+
+                //把对象转换成字符串(js中的对象的序列化)
+                console.log(JSON.stringify(jsonObj));
+            }
+        }
+    }
+</script>
+</body>
+</html>

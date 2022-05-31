@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基于jQuery的异步请求实现</title>
+    <script src="jquery-1.9.1.js"></script>
+</head>
+<body>
+
+<form onsubmit="return false;" id="form">
+    <input type="text" autocomplete="off" name="name" placeholder="请输入姓名"/>
+    <br>
+    <input type="text" autocomplete="off" name="age" placeholder="请输入年龄"/>
+    <br>
+    男: <input type="radio" name="sex" value="男"> 女:<input type="radio" name="sex" value="女">
+    <br>
+    java: <input type="checkbox" value="java" name="loves">
+    python:<input type="checkbox" value="python" name="loves">
+    大数据: <input type="checkbox" value="大数据" name="loves">
+    <br>
+    <select name="city">
+        <option>西安市</option>
+        <option>北京市</option>
+        <option>宝鸡市</option>
+    </select>
+    <br>
+    <button onclick="doSubmit()">提交数据给服务器</button>
+</form>
+<script>
+
+    let data = null;
+    function doSubmit(){
+        //将提交的表单信息序列化为一个字符串
+        let dataform = $("#form").serialize();
+
+        //使用jQuery中提供的异步请求的api
+        $.ajax({
+            url:"/web03/servlet01",//请求地址
+            type:"POST",//默认为get
+            data:dataform,//请求的数据
+            success:function (...args){//成功的回调函数
+                data = args[0];
+                console.log("成功响应",args);
+            },
+            fail:function (){//失败的回调函数
+                console.log("失败响应");
+            }
+        })
+
+        console.log(data);
+    }
+
+</script>
+</body>
+</html>
