@@ -181,6 +181,25 @@
         <url-pattern>/web04/homeworkservlet02</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>web05-Servlet01</servlet-name>
+        <servlet-class>com.hty.web05.Servlet01</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>web05-Servlet01</servlet-name>
+        <url-pattern>/web05/servlet01</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>web05-Servlet02</servlet-name>
+        <servlet-class>com.hty.web05.Servlet02</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>web05-Servlet02</servlet-name>
+        <url-pattern>/web05/servlet02</url-pattern>
+    </servlet-mapping>
+
+
     <!--注册filter-->
     <filter>
         <filter-name>myfilter01</filter-name>
